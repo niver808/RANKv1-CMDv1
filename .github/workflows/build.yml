@@ -1,0 +1,29 @@
+name: Build BYrank1shop.exe
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  workflow_dispatch:
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup MSVC x64 environment
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x64
+
+      - name: Compile BYrank1shop.exe
+        shell: cmd
+        run: cl.exe /nologo /EHsc /W1 /O2 /MT /utf-8 /D_CRT_SECURE_NO_WARNINGS main.cpp /Fe:BYrank1shop.exe /link /SUBSYSTEM:WINDOWS user32.lib gdi32.lib kernel32.lib dwmapi.lib
+
+      - name: Upload BYrank1shop.exe artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: BYrank1shop-windows-x64
+          path: BYrank1shop.exe
