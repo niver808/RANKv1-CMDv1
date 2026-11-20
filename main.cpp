@@ -793,7 +793,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE, PWSTR, int nCmdShow) {
     wc.style         = CS_HREDRAW | CS_VREDRAW;
     wc.lpfnWndProc   = WndProc;
     wc.hInstance     = hInstance;
-    wc.hCursor       = LoadCursorW(nullptr, IDC_ARROW);
+    wc.hCursor       =LoadCursorW(nullptr, MAKEINTRESOURCEW(32512))
     wc.hbrBackground = nullptr;
     wc.lpszClassName = CLASS_NAME;
 
