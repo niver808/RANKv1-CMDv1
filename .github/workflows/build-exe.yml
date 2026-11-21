@@ -1,0 +1,32 @@
+name: Build RANK1 Installer EXE
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install ps2exe and compile executable
+        shell: pwsh
+        run: |
+          Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
+          Install-Module -Name ps2exe -Scope CurrentUser -Force
+
+          Invoke-ps2exe `
+            -InputFile ".\installer.ps1" `
+            -OutputFile ".\RANK1_Installer.exe" `
+            -Title "RANK1 INSTALLER" `
+            -Version "1.0.0.0"
+
+      - name: Upload EXE artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: RANK1-Installer-Windows
+          path: .\RANK1_Installer.exe
